@@ -45,11 +45,18 @@ function run(sourcePath, destinationPath) {
 
                 if (!fileHashes[key]) {
 
-                    fileHashes[key] = true;
+                    fileHashes[key] = destinationPath + '/' + item.name;
                 
                     fs.copyFileSync(sourcePath + '/' + item.name, destinationPath + '/' + item.name); 
 
                     console.log('\tMoved: \t' + item.name);
+
+                    fs.writeFileSync(fileHashes[key] + '.txt', 'Also found in: \n')
+
+
+                } else {
+
+                    fs.appendFileSync(fileHashes[key] + '.txt', '\n' + sourcePath + '\n');
 
                 }
             }
