@@ -35,22 +35,27 @@ function run(sourcePath, destinationPath) {
                 run(sourcePath + '/' + item.name, destinationPath + '/' + item.name);
 
                 
-            } else {  
+            } else {
+                const filePath = sourcePath+'/'+item.name;
                 
-                const fileData = fs.readFileSync(sourcePath+'/'+item.name);
+                const fileData = fs.readFileSync(filePath);
 
-                const hash = crypto.createHash('md5');
+                const fileExtension = path.extname(filePath);
 
-                const key = hash.update(fileData).digest('hex');
+                if (fileExtension !== '.mov' || fileExtension !== '.mp4' || fileExtension !== '.mkv' || fileExtension !== '.m4v' || fileExtension !== '.fcpbundle' || fileExtension !== '.app' || fileExtension !== '.dmg' || fileExtension !== '.pkg' || fileExtension !== '.zip' || fileExtension !== '.rar' || fileExtension !== '.tar' || fileExtension !== '.gz' || fileExtension !== '.7z' || fileExtension !== '.iso' || fileExtension !== '.dmg' || fileExtension !== '.exe' || fileExtension !== '.msi' || fileExtension !== '.deb' || fileExtension !== '.rpm' || fileExtension !== '.apk' || fileExtension !== '.ipa' || fileExtension !== '.appx' || fileExtension !== '.appxbundle' || fileExtension !== '.wav') {
+                    const hash = crypto.createHash('md5');
 
-                if (!fileHashes[key]) {
+                    const key = hash.update(fileData).digest('hex');
 
-                    fileHashes[key] = true;
-                
-                    fs.copyFileSync(sourcePath + '/' + item.name, destinationPath + '/' + item.name); 
+                    if (!fileHashes[key]) {
 
-                    console.log('\tMoved: \t' + item.name);
+                        fileHashes[key] = true;
+                    
+                        fs.copyFileSync(sourcePath + '/' + item.name, destinationPath + '/' + item.name); 
 
+                        console.log('\tMoved: \t' + item.name);
+
+                    }
                 }
             }
             
